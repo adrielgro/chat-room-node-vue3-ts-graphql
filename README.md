@@ -9,6 +9,9 @@ Welcome to our real-time chat application built with GraphQL, Vue 3, Node.js, an
 - Vuex for centralized state management
 - Tailwind CSS for responsive styling
 
+## Screenshot
+![Captura de Pantalla](./screenshot.png)
+
 ## Getting Started
 
 ### Running with Docker
