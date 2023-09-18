@@ -1,0 +1,33 @@
+@layer components {
+  .input-search {
+    @apply bg-neutral-50 focus:bg-neutral-100 transition-all rounded-full px-6 focus:outline-0 text-neutral-500 text-sm w-[200px] focus:w-[512px] h-[48px] max-w-3xl;
+  }
+
+  .input-chat {
+    @apply bg-white flex items-center rounded-t-lg pr-5;
+
+    > input {
+      @apply flex-1 rounded-lg text-neutral-500 focus:outline-0 pl-5 py-5 lg:py-8;
+    }
+
+    > button {
+      @apply flex items-center justify-center bg-primary text-white rounded-full w-10 lg:w-12 h-10 lg:h-12;
+    }
+  }
+
+  .dropdown-button {
+    @apply inline-flex items-center w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50;
+
+    > p {
+      @apply hidden lg:block;
+    }
+  }
+
+  .dropdown-menu {
+    @apply absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-black ring-opacity-5 focus:outline-none overflow-hidden transition-all duration-200 ease-in-out;
+
+    button {
+      @apply text-neutral-500 block w-full px-4 py-2 text-left text-sm hover:bg-neutral-100 hover:text-neutral-700 transition-colors;
+    }
+  }
+}

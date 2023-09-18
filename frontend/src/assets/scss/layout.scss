@@ -1,0 +1,57 @@
+@layer components {
+  .container-chat {
+    @apply flex flex-col w-full bg-neutral-50 overflow-y-hidden rounded-2xl lg:rounded-l-none lg:rounded-r-2xl;
+  }
+
+  .sidebar {
+    @apply flex flex-col justify-between px-6 pt-7 w-[330px] min-w-[250px] border-r border-r-gray-100 bg-white rounded-l-2xl overflow-y-auto;
+
+    > div:first-child {
+      > .logo {
+        @apply flex items-center justify-center gap-x-4 pb-2;
+
+        img {
+          @apply w-[132px] relative -left-3;
+        }
+      }
+
+      > .chat-rooms {
+        @apply mt-8;
+
+        > p:first-child {
+          @apply text-xs pl-6 text-gray-500 font-semibold;
+        }
+
+        > ul {
+          @apply flex flex-col gap-y-4 mt-4 text-gray-500;
+
+          > li {
+            @apply flex flex-row gap-x-5 items-center px-6 py-4 rounded-full hover:text-primary hover:bg-primary-light transition-colors cursor-pointer;
+
+            span {
+              &:first-of-type {
+                @apply text-sm;
+              }
+
+              &:nth-child(3) {
+                @apply font-normal text-[11px] bg-red-100 text-red-400 px-2 rounded-full;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    > div:last-child {
+      @apply pl-6 pb-6 flex flex-col gap-y-2;
+
+      > p:first-child {
+        @apply text-xs text-gray-400 font-medium;
+      }
+
+      > p:last-child {
+        @apply text-xs text-gray-400;
+      }
+    }
+  }
+}

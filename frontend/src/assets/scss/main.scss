@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "./layout";
+@import "./chat";
+@import "./auth";
+
+:root {
+  background: linear-gradient(to bottom, #128EFE 100px, #E4E2DD 100px);
+}
