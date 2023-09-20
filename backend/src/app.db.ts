@@ -2,6 +2,11 @@ import { DataSource } from "typeorm";
 import { User } from "./modules/user/entities/User";
 import { Room } from "./modules/room/entities/room";
 import { Message } from "./modules/message/entities/message";
+import "dotenv/config";
+
+require("dotenv").config();
+
+console.log(process.env.MONGO_HOSTNAME);
 
 export const DatabaseDataSource = new DataSource({
   type: "mongodb",

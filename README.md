@@ -36,7 +36,27 @@ Welcome to our real-time chat application built with Node.js, Vue 3, GraphQL and
 
 First of all, you will need to have MongoDB already installed.
 
-### Running Frontend (Vite)
+### Running Backend (Node.js)
+1. Navigate to the chat/backend directory.
+2. Install project dependencies with npm install or yarn install.
+3. Configure your database connection in the .env file.
+4. Start the Node.js server with the following command:
+
+
+   ```bash
+   cp .env.local .env
+   ```
+
+   ```bash
+   yarn install
+   ```
+
+   ```bash
+   yarn dev
+   ```
+5. The GraphQL server will be available at http://localhost:9000/graphql
+
+### Running Frontend (Vue3)
 1. Navigate to the chat/frontend directory.
 2. Install project dependencies with npm install or yarn install.
 3. Start the development server with the following command:
@@ -49,21 +69,6 @@ First of all, you will need to have MongoDB already installed.
    yarn dev
    ```
 4. Open your browser and access the frontend at http://localhost:4173
-
-### Running Backend (Node.js)
-1. Navigate to the chat/backend directory.
-2. Install project dependencies with npm install or yarn install.
-3. Configure your database connection in the .env file.
-4. Start the Node.js server with the following command:
-
-   ```bash
-   yarn install
-   ```
-   
-   ```bash
-   yarn dev
-   ```
-5. The GraphQL server will be available at http://localhost:9000/graphql
 
 ## Contributing
 We welcome contributions from the community! If you'd like to contribute, please follow our contribution guidelines.
