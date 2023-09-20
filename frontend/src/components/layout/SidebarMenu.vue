@@ -33,14 +33,6 @@
           CHAT ROOMS
         </p>
         <ul>
-          <li>
-            <PhHouse
-              class="text-primary"
-              size="22"
-              weight="duotone"
-            />
-            <span class="text-sm">Home</span>
-          </li>
           <li
             v-for="(room, key) in allRooms"
             :key="key"
