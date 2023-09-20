@@ -10,6 +10,7 @@ lerna-debug.log*
 .env
 node_modules
 build
+!public/static/.DS_Store
 public/static/**/*
 
 # Editor directories and files
