@@ -10,11 +10,9 @@ Welcome to our real-time chat application built with Node.js, Vue 3, GraphQL and
 - Tailwind CSS for responsive styling
 
 ## Screenshot
-![Captura de Pantalla](./screenshot.png)
+![Screenshot](./screenshot.png)
 
-## Getting Started
-
-### Running with Docker
+## Running with Docker (Option 1)
 
 1. Make sure you have Docker installed on your machine.
 
@@ -23,6 +21,10 @@ Welcome to our real-time chat application built with Node.js, Vue 3, GraphQL and
 3. Run the following command to build and start the containers:
 
    ```bash
+   cp .env.docker .env
+   ```
+   
+   ```bash
    docker-compose up -d --build
    ```
 
@@ -30,7 +32,9 @@ Welcome to our real-time chat application built with Node.js, Vue 3, GraphQL and
    - Frontend: http://localhost:4173
    - Backend GraphQL Playground: http://localhost:9000/graphql
 
-## Running Frontend and Backend Separately
+## Running Frontend and Backend (Option 2)
+
+First of all, you will need to have MongoDB already installed.
 
 ### Running Frontend (Vite)
 1. Navigate to the chat/frontend directory.
@@ -39,6 +43,9 @@ Welcome to our real-time chat application built with Node.js, Vue 3, GraphQL and
 
    ```bash
    yarn install
+   ```
+   
+   ```bash
    yarn dev
    ```
 4. Open your browser and access the frontend at http://localhost:4173
@@ -46,11 +53,14 @@ Welcome to our real-time chat application built with Node.js, Vue 3, GraphQL and
 ### Running Backend (Node.js)
 1. Navigate to the chat/backend directory.
 2. Install project dependencies with npm install or yarn install.
-3. Configure your database connection in the server settings.
+3. Configure your database connection in the .env file.
 4. Start the Node.js server with the following command:
 
    ```bash
    yarn install
+   ```
+   
+   ```bash
    yarn dev
    ```
 5. The GraphQL server will be available at http://localhost:9000/graphql
