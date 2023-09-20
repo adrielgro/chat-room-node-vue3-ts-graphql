@@ -10,6 +10,7 @@ lerna-debug.log*
 .env
 node_modules
 build
+public/static/**/*
 
 # Editor directories and files
 .vscode/*

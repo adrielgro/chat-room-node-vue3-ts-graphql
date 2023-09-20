@@ -6,6 +6,9 @@ import { MessageRepository } from "./message.repository";
 import UserService from "../user/user.service";
 import RoomService from "../room/room.service";
 import { PubSubEngine } from "type-graphql";
+import { UploadFileInput } from "./dto/upload-file.input";
+import { createWriteStream } from "fs";
+import { generateFileName } from "./helpers/upload-file.helper";
 
 class MessageService {
   private readonly messageRepository: Repository<Message>;
@@ -72,6 +75,64 @@ class MessageService {
         _id: objectId,
       }
     });
+  }
+
+  async uploadFiles(uploadFileInput: UploadFileInput, pubSub: PubSubEngine) {
+    let images: string[] = [];
+
+    try {
+      images = await Promise.all(
+        uploadFileInput.files.map(async (file) => {
+          const { createReadStream, filename } = await file;
+          const readStream = createReadStream();
+          const newFilename = generateFileName(filename);
+          const writeStream = createWriteStream(
+            `./public/static/${newFilename}`,
+          );
+
+          await new Promise<void>((resolve, reject) => {
+            readStream
+              .pipe(writeStream)
+              .on("finish", resolve)
+              .on("error", (error) => reject(error));
+          });
+
+          return newFilename;
+        }),
+      );
+    } catch (e) {
+      console.error("Error saving file:", e);
+    }
+
+    const newMessage = this.messageRepository.create({
+      ...uploadFileInput,
+      files: [],
+    });
+
+    if (uploadFileInput.userId) {
+      const user = await this.userService.getUserById(uploadFileInput.userId);
+
+      if (user) {
+        newMessage.user = user;
+      }
+    }
+
+    if (uploadFileInput.roomId) {
+      const room = await this.roomService.getRoomById(uploadFileInput.roomId);
+
+      if (room) {
+        newMessage.room = room;
+      }
+    }
+
+    newMessage.files = images;
+
+    await pubSub.publish(uploadFileInput.topic, {
+      ...newMessage,
+      files: images,
+    });
+
+    return await this.messageRepository.save(newMessage);
   }
 }
 

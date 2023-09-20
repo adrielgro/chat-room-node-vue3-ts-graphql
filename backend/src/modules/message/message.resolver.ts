@@ -4,6 +4,7 @@ import { Message } from "./entities/message";
 import messageService from "./message.service";
 import MessageService from "./message.service";
 import { NewMessageSubscription } from "./dto/new-message.subscription";
+import { UploadFileInput } from "./dto/upload-file.input";
 
 @Resolver(Message)
 class MessageResolver {
@@ -43,6 +44,14 @@ class MessageResolver {
   @Query(() => Message, { nullable: true })
   async getMessage(@Arg("id") id: string): Promise<Message | null> {
     return await this.messageService.getMessageById(id);
+  }
+
+  @Mutation(() => Message)
+  async uploadFiles(
+    @Arg("uploadFileInput") uploadFileInput: UploadFileInput,
+    @PubSub() pubSub: PubSubEngine,
+  ): Promise<Message> {
+    return await this.messageService.uploadFiles(uploadFileInput, pubSub);
   }
 }
 

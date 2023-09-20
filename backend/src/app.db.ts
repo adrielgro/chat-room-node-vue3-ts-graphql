@@ -5,11 +5,11 @@ import { Message } from "./modules/message/entities/message";
 
 export const DatabaseDataSource = new DataSource({
   type: "mongodb",
-  host: "mongodb",
+  host: process.env.MONGO_HOSTNAME,
   port: 27017,
-  username: "sellia",
-  password: "12345678",
-  database: "sellia_chat",
+  username: process.env.MONGO_USERNAME,
+  password: process.env.MONGO_PASSWORD,
+  database: process.env.MONGO_DATABASE,
   authSource: "admin",
   synchronize: true,
   logging: true,

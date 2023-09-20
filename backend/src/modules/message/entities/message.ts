@@ -15,9 +15,17 @@ export class Message {
   @ObjectIdColumn()
   public readonly _id?: ObjectId;
 
-  @Field()
-  @Column()
-  public text!: string;
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  public text?: string;
+
+  @Field(() => [String], { nullable: true })
+  @Column({ nullable: true, array: true })
+  public files?: string[];
+
+  @Field(() => Boolean, { nullable: true })
+  @Column({ default: false })
+  public isMedia!: boolean;
 
   @Field({ nullable: true })
   @CreateDateColumn()
