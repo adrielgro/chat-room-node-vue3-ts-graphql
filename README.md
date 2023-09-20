@@ -1,6 +1,6 @@
-# Real-Time Chat with GraphQL and Vue 3
+# Real-Time Chat with NodeJS and Vue 3
 
-Welcome to our real-time chat application built with GraphQL, Vue 3, Node.js, and TypeORM. This project enables instant communication with GraphQL Subscriptions, utilizing a clean architecture for maintainability and Vuex for state management. It's styled with Tailwind CSS for a sleek and responsive user interface.
+Welcome to our real-time chat application built with Node.js, Vue 3, GraphQL and TypeORM. This project enables instant communication with GraphQL Subscriptions, utilizing a clean architecture for maintainability and Vuex for state management. It's styled with Tailwind CSS for a sleek and responsive user interface.
 
 ## Features
 
