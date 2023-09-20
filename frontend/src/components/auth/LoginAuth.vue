@@ -5,7 +5,11 @@
   const username = ref("");
   const store = useStore();
 
-  const login = () => store.dispatch("auth/login", username.value);
+  const login = () => {
+    if (!username.value.length) return;
+
+    store.dispatch("auth/login", username.value);
+  };
 </script>
 
 <template>

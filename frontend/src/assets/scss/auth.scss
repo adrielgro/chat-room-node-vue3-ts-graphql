@@ -1,6 +1,7 @@
 @layer components {
   .modal-auth {
-    @apply bg-white p-5 rounded-lg border border-gray-200;
+    @apply bg-white p-5 rounded-lg border border-gray-100;
+    box-shadow: 0 0 15px rgba(128, 128, 128, 0.2);
 
     > .title {
       @apply font-semibold text-xl;

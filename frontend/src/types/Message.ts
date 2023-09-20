@@ -2,7 +2,9 @@ import { User } from "./User.ts";
 
 export interface Message {
   _id?: string;
-  text: string;
+  text?: string;
+  files?: string[];
+  isMedia: boolean;
   createdAt: Date;
   user: User;
 }
@@ -17,4 +19,8 @@ export interface CreateMessageResponse {
 
 export interface NewMessageResponse {
   newMessage: Message;
+}
+
+export interface MessageChat extends Message {
+  highlighted?: boolean;
 }

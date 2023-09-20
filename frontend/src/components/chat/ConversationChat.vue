@@ -2,21 +2,24 @@
 import InputChat from "./InputChat.vue";
 import DropdownMenu from "../ui/DropdownMenu.vue";
 import { User } from "../../types/User.ts";
-import { computed, ComputedRef, watch } from "vue";
+import { computed, ComputedRef, nextTick, ref, watch } from "vue";
 import { useStore } from "vuex";
 import { Room } from "../../types/Room.ts";
-import { Message } from "../../types/Message.ts";
+import { Message, MessageChat } from "../../types/Message.ts";
 import DynamicIcon from "../utils/DynamicIcon.vue";
 import moment from "moment";
 import tailwindColors from "tailwindcss/colors";
+import { PhCloudArrowDown } from "@phosphor-icons/vue";
 
 const store = useStore();
 const logout = () => store.dispatch("auth/logout");
 const user: ComputedRef<User> = computed(() => store.getters["auth/currentUser"]);
 const currentRoom: ComputedRef<Room> = computed(() => store.getters["chat/currentRoom"]);
-const allMessages: ComputedRef<Message[]> = computed(() => store.getters["chat/getMessages"]);
+const allMessages: ComputedRef<MessageChat[]> = computed(() => store.getters["chat/getMessages"]);
 const isMyMessage = (message: Message) => message.user._id === user.value._id;
 const userColors: Map<string, string> = new Map();
+const staticMedia = import.meta.env.VITE_STATIC_APP;
+const searchQuery = ref("");
 
 const getRandomColor = () => {
   const tailwindColorArray = Object.keys(tailwindColors);
@@ -34,6 +37,37 @@ const getUserColor = (userId: string) => {
   }
 
   return userColors.get(userId);
+};
+
+const highlightText = (text: string) => {
+  const searchTerm = searchQuery.value.toLowerCase();
+
+  if (searchTerm && text.toLowerCase().includes(searchTerm)) {
+    const regex = new RegExp(searchTerm, "gi");
+    return text.replace(regex, "<span class=\"bg-orange-400\">$&</span>");
+  }
+
+  return text;
+};
+const searchMessage = () => {
+  if (!searchQuery.value.length) return;
+
+  const searchTerm = searchQuery.value.toLowerCase();
+
+  const messageIndex = allMessages.value.findIndex((message) =>
+      message.text?.toLowerCase().includes(searchTerm)
+  );
+
+  if (messageIndex !== -1) {
+    allMessages.value[messageIndex].highlighted = true;
+
+    nextTick(() => {
+      const messageElement = document.getElementById(`message-${messageIndex}`);
+      if (messageElement) {
+        messageElement.scrollIntoView({ behavior: "smooth" });
+      }
+    });
+  }
 };
 
 watch(currentRoom, (room: Room) => {
@@ -58,17 +92,13 @@ watch(currentRoom, (room: Room) => {
       </div>
       <div class="flex items-center gap-x-8">
         <input
+          v-model="searchQuery"
           type="text"
           class="input-search hidden lg:block"
           placeholder="Search within the chat..."
+          @input="searchMessage"
         />
         <DropdownMenu :text="user.username">
-          <button
-            role="menuitem"
-            tabindex="-1"
-          >
-            Change username
-          </button>
           <button
             role="menuitem"
             tabindex="-1"
@@ -86,6 +116,7 @@ watch(currentRoom, (room: Room) => {
       >
         <div
           v-for="(message, key) in allMessages"
+          :id="'message-' + key"
           :key="key"
           :class="[isMyMessage(message) ? 'self-end' : 'self-start', 'w-full lg:w-7/12 flex flex-col']"
         >
@@ -102,7 +133,31 @@ watch(currentRoom, (room: Room) => {
             >
               {{ message.user.username }}
             </p>
-            <p>{{ message.text }}</p>
+            <p
+              v-if="message.text"
+              v-html="highlightText(message.text)"
+            />
+            <div v-if="message.files">
+              <div
+                v-if="message.isMedia"
+                class="py-2"
+              >
+                <img
+                  class="max-w-[256px] max-h-[256px] rounded-xl"
+                  :src="`${staticMedia}/${message.files[0]}`"
+                  alt="Image"
+                />
+              </div>
+              <a
+                v-else
+                :class="[isMyMessage(message) ? 'bg-white/20 hover:bg-white/30' : 'bg-black/10 hover:bg-black/20 text-primary', 'py-3 px-4 rounded-lg flex items-center gap-x-4 cursor-pointer transition-colors']"
+                :href="`${staticMedia}/${message.files[0]}`"
+                target="_blank"
+              >
+                <p>{{ message.files[0] }}</p>
+                <PhCloudArrowDown size="32" />
+              </a>
+            </div>
           </div>
 
           <span :class="[isMyMessage(message) ? 'self-end' : 'self-start', 'text-[10px] text-gray-600 mt-2']">

@@ -4,11 +4,11 @@
   }
 
   .sidebar {
-    @apply flex flex-col justify-between px-6 pt-7 w-[330px] min-w-[250px] border-r border-r-gray-100 bg-white rounded-l-2xl overflow-y-auto;
+    @apply flex flex-col justify-between px-6 pt-7 w-full lg:w-[330px] min-w-[250px] border-r border-r-gray-100 bg-white rounded-2xl lg:rounded-r-none lg:rounded-l-2xl overflow-y-auto h-main-screen;
 
     > div:first-child {
       > .logo {
-        @apply flex items-center justify-center gap-x-4 pb-2;
+        @apply flex lg:items-center lg:justify-center gap-x-4 pb-2 pl-8 lg:pl-0;
 
         img {
           @apply w-[132px] relative -left-3;

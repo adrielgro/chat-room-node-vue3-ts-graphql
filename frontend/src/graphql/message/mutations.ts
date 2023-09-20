@@ -10,3 +10,14 @@ export const CREATE_MESSAGE = gql`
         }
     }
 `;
+
+export const UPLOAD_FILES = gql`
+    mutation UploadFiles($uploadFileInput: UploadFileInput!) {
+        uploadFiles(uploadFileInput: $uploadFileInput) {
+            _id
+            files
+            createdAt
+            updatedAt
+        }
+    }
+`;

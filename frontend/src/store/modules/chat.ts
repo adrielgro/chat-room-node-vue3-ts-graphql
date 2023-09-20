@@ -5,7 +5,7 @@ import { GET_ROOM, GET_ROOMS } from "../../graphql/room/queries.ts";
 import { Room, RoomResponse, RoomsResponse } from "../../types/Room.ts";
 import { NEW_MESSAGE } from "../../graphql/message/subscriptions.ts";
 import { Message, NewMessageResponse, CreateMessageResponse, MessagesByRoomResponse } from "../../types/Message.ts";
-import { CREATE_MESSAGE } from "../../graphql/message/mutations.ts";
+import { CREATE_MESSAGE, UPLOAD_FILES } from "../../graphql/message/mutations.ts";
 import { Subscription } from "zen-observable-ts";
 import { GET_MESSAGES_BY_ROOM } from "../../graphql/message/queries.ts";
 
@@ -111,6 +111,54 @@ const actions = {
       console.error(error);
     }
   },
+  async sendFile({ state, rootState }: ActionContext<ChatState, RootState>, files: File[]) {
+    try {
+      await apolloClient.mutate<CreateMessageResponse>({
+        mutation: UPLOAD_FILES,
+        variables: {
+          uploadFileInput: {
+            files: files,
+            isMedia: false,
+            roomId: state.room?._id,
+            userId: rootState.auth.user?._id,
+            topic: rootState.chat.room?._id,
+          },
+        },
+        context: {
+          headers: {
+            "keep-alive": "true",
+            "Apollo-Require-Preflight": "true"
+          },
+        }
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  async sendImage({ state, rootState }: ActionContext<ChatState, RootState>, files: File[]) {
+    try {
+      await apolloClient.mutate<CreateMessageResponse>({
+        mutation: UPLOAD_FILES,
+        variables: {
+          uploadFileInput: {
+            files: files,
+            isMedia: true,
+            roomId: state.room?._id,
+            userId: rootState.auth.user?._id,
+            topic: rootState.chat.room?._id,
+          },
+        },
+        context: {
+          headers: {
+            "keep-alive": "true",
+            "Apollo-Require-Preflight": "true"
+          },
+        }
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  },
   async startMessageSubscription({ state, commit, dispatch }: ActionContext<ChatState, RootState>, topic: string) {
     await dispatch("stopMessageSubscription");
 
@@ -133,7 +181,6 @@ const actions = {
       state.roomSubscription.unsubscribe();
     }
   },
-  // TODO: searchChat
 };
 
 export const chat: Module<ChatState, RootState> = {
