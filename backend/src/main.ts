@@ -19,7 +19,7 @@ const bootstrap = async () => {
   try {
     DatabaseDataSource.initialize().catch((error) => console.log(error));
     const httpServer = createServer(app);
-    const maxFileSize = 1000000 * 15; // 15 MB
+    const maxFileSize = 1000000 * 300; // 300 MB
     const maxFiles = 25;
 
     const wsServer = new WebSocket.Server({
